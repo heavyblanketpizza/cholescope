@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cholescope"
+version = "0.1.0"
+description = "Keyboard-controlled surgical world-model exploration with reproducible comparisons"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+dependencies = ["aiohttp>=3.11,<4", "numpy>=1.26,<2.5", "Pillow>=10,<14"]
+
+[project.optional-dependencies]
+test = ["pytest>=8", "pytest-asyncio>=0.23", "pytest-aiohttp>=1"]
+
+[project.scripts]
+cholescope = "cholescope.server:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+cholescope = ["static/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"

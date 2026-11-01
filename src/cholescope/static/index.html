@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f7f4">
+  <meta name="description" content="An interactive surgical world-model playground. Explore two action sequences from one starting scene with Cosmos3-H-Dreams.">
+  <title>CholeScope — Surgical world-model playground</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%23101b19'/%3E%3Ccircle cx='20' cy='20' r='11' fill='none' stroke='%23a1dfcc' stroke-width='2'/%3E%3Cpath d='M20 4v10m0 12v10M4 20h10m12 0h10' stroke='%23a1dfcc' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/style.css">
+  <script type="module" src="/static/app.mjs"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="masthead"><a class="brand" href="/" aria-label="CholeScope home">CholeScope</a><nav class="page-nav" aria-label="Demo modes"><a href="/" aria-current="page">Manual</a><a href="/student">Coordinate</a></nav><div class="pod-controls" id="pod-controls" aria-label="GPU pod controls"><div class="pod-text"><span class="pod-state" id="pod-state" role="status">Checking pod…</span><span class="pod-caption" id="pod-caption" aria-live="polite"></span></div><button class="button primary" id="pod-start" disabled>Start pod</button><button class="button secondary" id="pod-stop" hidden disabled>Stop pod</button></div></header>
+
+    <main>
+      <section class="page-heading" aria-labelledby="page-title"><h1 id="page-title">Manual controls</h1><span class="generated-label">AI-generated video</span></section>
+
+      <section class="session-bar" aria-label="Session settings">
+        <div class="field scene-field"><label for="scene-select">Scene</label><select id="scene-select" disabled><option value="">Loading scenes…</option></select></div>
+        <div class="field seed-field"><label for="seed">Seed</label><div class="seed-input"><input id="seed" type="number" min="0" max="2147483647" value="42" inputmode="numeric"><button class="icon-button" id="random-seed" title="Choose a random seed" aria-label="Choose a random seed">↻</button></div></div>
+        <div class="session-actions"><button class="button secondary" id="take-control" title="Take control here and pause the other tab" hidden>Use this tab</button><button class="button secondary" id="new-session" title="End this session and choose a new scene" hidden>End session</button><button class="button primary start-button" id="start" disabled><span class="play-symbol" aria-hidden="true">▶</span><span id="start-label">Start session</span></button></div>
+      </section>
+
+      <div class="status-line"><div class="connection" id="connection"><span class="status-dot"></span><span id="connection-label">Offline</span></div><div class="connection-notice" id="notice" role="status"><p id="notice-text">Start the pod to begin.</p></div><div class="session-metrics"><span class="metric" title="Model generation throughput only. Excludes input collection, network transfer, and playback; this is not the delivered video frame rate.">Model throughput<strong id="fps"></strong></span><span class="metric" title="Measured from the first action sample to the generated video chunk being ready; not display or network latency">Chunk latency<strong id="latency"></strong></span></div></div>
+
+      <section class="viewer-grid" aria-label="Side-by-side surgical comparison">
+        <article class="viewer-card reference-card">
+          <header class="viewer-header"><div class="viewer-title"><span class="branch-letter">A</span><h2 id="reference-title">Starting scene</h2></div><div class="viewer-meta"><span class="viewer-kind" id="reference-kind">Dataset image</span><a id="download-a" class="text-link" aria-label="Download branch A video" hidden download>Video ↓</a><a id="actions-a" class="text-link" aria-label="Download branch A model actions" hidden download>Actions ↓</a></div></header>
+          <div class="viewport" id="reference-viewport">
+            <img id="reference-image" alt="Selected surgical starting scene" hidden>
+            <video id="reference-video" muted playsinline preload="metadata" aria-label="Recorded generated baseline" hidden></video>
+            <div class="empty-state" id="reference-empty"><p id="reference-empty-title">The starting scene appears here</p></div>
+            <div class="viewport-caption"><span id="reference-time">00:00.0</span></div>
+          </div>
+        </article>
+
+        <article class="viewer-card live-card">
+          <header class="viewer-header"><div class="viewer-title"><span class="branch-letter live">B</span><h2 id="live-title">Model continuation</h2></div><div class="viewer-meta"><span class="viewer-kind">AI generated</span><a id="download-b" class="text-link" aria-label="Download branch B video" hidden download>Video ↓</a><a id="actions-b" class="text-link" aria-label="Download branch B model actions" hidden download>Actions ↓</a></div></header>
+          <div class="viewport" id="live-viewport" tabindex="0" role="group" aria-label="Live generated scene and drag controls" aria-describedby="drag-help">
+            <img id="live-image" alt="Live AI-generated surgical continuation" draggable="false" hidden>
+            <video id="comparison-video" muted playsinline preload="metadata" aria-label="Recorded generated alternative" hidden></video>
+            <div class="empty-state" id="live-empty"><p>The generated continuation appears here</p></div>
+            <div class="pointer-toolbar" id="pointer-toolbar" role="group" aria-label="Select or drag an instrument"><button id="drag-left" data-drag-arm="left" class="selected" aria-pressed="true" title="Select or drag the left grasper" disabled><span class="drag-grip" aria-hidden="true">⠿</span>Left grasper<kbd>1</kbd></button><button id="drag-right" data-drag-arm="right" aria-pressed="false" title="Select or drag the right hook" disabled><span class="drag-grip" aria-hidden="true">⠿</span>Right hook<kbd>2</kbd></button></div>
+            <svg class="pointer-feedback" id="pointer-feedback" aria-hidden="true" hidden><line id="drag-tether"/><circle id="drag-anchor" r="3"/><circle id="drag-ring" r="13"/><text id="drag-feedback-label">Input gesture</text></svg>
+            <p class="pointer-help" id="drag-help" data-pointer-ignore>Drag to move · Scroll for depth · Shift for precision</p>
+            <div class="viewport-caption"><span id="live-caption"></span><span id="live-time">00:00.0</span></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="comparison-bar" aria-label="Comparison workflow">
+        <div class="record-actions"><button class="button secondary" id="record-a" disabled><span class="record-dot"></span><span>Record A</span></button><button class="button secondary" id="reset" disabled title="Reset the model to the same scene and seed before recording B"><span aria-hidden="true">↺</span>Reset for B</button><button class="button secondary" id="record-b" disabled><span class="record-dot"></span><span>Record B</span></button><button class="button secondary compare-button" id="compare" disabled>Compare A and B</button></div>
+        <div class="playback-controls" id="playback-controls" hidden><button class="icon-button" id="play-pause" aria-label="Play both recordings">▶</button><input id="timeline" type="range" min="0" max="1000" value="0" aria-label="Seek both recordings"><span id="playback-time">00:00.0 / 00:00.0</span><button class="text-button" id="exit-compare">Return to live view</button></div>
+      </section>
+
+      <details class="minimal-details controls-details"><summary>Keyboard controls</summary><section class="control-deck" aria-label="Mouse and keyboard instrument controls">
+        <div class="arm-control"><span class="deck-label">Active instrument</span><div class="arm-switch" role="group" aria-label="Choose controlled arm"><button id="arm-left" class="selected" aria-pressed="true"><kbd>1</kbd>Left arm<span>Grasper</span></button><button id="arm-right" aria-pressed="false"><kbd>2</kbd>Right arm<span>Hook</span></button></div><div class="control-state"><span id="input-dot"></span><span id="input-label">Controls inactive</span></div></div>
+        <div class="key-group"><span class="deck-label">Translate</span><div class="key-row"><kbd data-key="w">W</kbd><kbd data-key="a">A</kbd><kbd data-key="s">S</kbd><kbd data-key="d">D</kbd><span>Forward / back / lateral</span></div><div class="key-row"><kbd data-key="q">Q</kbd><kbd data-key="e">E</kbd><span>Up / down</span></div></div>
+        <div class="key-group"><span class="deck-label">Rotate</span><div class="key-row"><kbd data-key="arrowup">↑</kbd><kbd data-key="arrowdown">↓</kbd><kbd data-key="arrowleft">←</kbd><kbd data-key="arrowright">→</kbd><span>Pitch / yaw</span></div><div class="key-row"><kbd data-key="z">Z</kbd><kbd data-key="x">X</kbd><span>Roll</span></div></div>
+        <div class="key-group"><span class="deck-label">Grip &amp; precision</span><div class="key-row"><kbd data-key="f">F</kbd><kbd data-key="v">V</kbd><span>Close / open jaw</span></div><div class="key-row"><kbd class="wide" data-key="shift">Shift</kbd><span>Fine movement</span></div></div>
+        <div class="pause-group"><button id="pause" class="pause-button" disabled><kbd class="wide">Space</kbd><span>Pause</span></button><span>Releases all held inputs</span></div>
+      </section></details>
+
+      <footer class="page-footer"><span>Research demo · Not for clinical use</span><details class="source-details"><summary>Sources &amp; limits</summary><div class="provenance"><p><span class="research-dot"></span>Research demonstration. Generated motion may be anatomically incorrect. Not for clinical use.</p><p>Built on <a href="https://huggingface.co/nvidia/Cosmos3-H-Dreams" target="_blank" rel="noopener noreferrer">NVIDIA Cosmos ↗</a> · Scene: <a href="https://huggingface.co/datasets/nvidia/PhysicalAI-Robotics-Open-H-Embodiment/tree/main/Surgical/cmr_surgical/cholecystectomy" target="_blank" rel="noopener noreferrer">CMR Surgical / Open-H ↗</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0 ↗</a></p></div><button class="text-button" id="export-inputs" disabled>Export control inputs ↓</button></details></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="alert" hidden></div>
+</body>
+</html>

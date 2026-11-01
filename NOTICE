@@ -1,0 +1,17 @@
+CholeScope
+
+Includes model warmup logic adapted from NVIDIA Cosmos3-H-Dreams:
+Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+The adapted logic is in src/cholescope/model_backend.py and originates from
+Cosmos3HDreamsSession._warmup_rollout in the Apache-2.0 licensed upstream:
+https://github.com/isaac-for-healthcare/cosmos3-h-dreams
+Revision: fb18792d8af680a713801dea7688919e46329810
+
+The source-code license is the Apache License, Version 2.0. See LICENSE.
+The keyboard interface implements the published upstream headset action
+format. This project is not affiliated with or endorsed by NVIDIA or CMR.
+
+Model weights and scene assets have separate licenses and are not included
+in this repository. See THIRD_PARTY.md for the applicable attribution and
+terms, including the CMR/Open-H example image used by the optional loader.
