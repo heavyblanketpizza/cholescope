@@ -20,7 +20,12 @@ import sys
 
 
 PUBLIC_MARKDOWN = {"README.md", "THIRD_PARTY.md"}
-PUBLIC_MEDIA = {"assets/cholescope-comparison.gif"}
+PUBLIC_MEDIA = {
+    "assets/cholescope-comparison.gif",
+    "assets/cholescope-live-demo.mp4",
+    "assets/cholescope-live-demo.jpg",
+    "assets/cholescope-live-preview.gif",
+}
 PUBLIC_ARTIFACTS = {
     "src/cholescope/static/index.html", "src/cholescope/static/student.html",
 }

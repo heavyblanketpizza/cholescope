@@ -14,12 +14,34 @@ trains a small controller to produce geometric reaching commands while Cosmos
 stays frozen. Generated footage is a research demonstration, not a clinically
 validated simulator.
 
+https://github.com/user-attachments/assets/d4c4cf89-9224-44ae-8c5b-87600c66102c
+
+**Live demo — 60 seconds, 2× speed**
+· [Download MP4](assets/cholescope-live-demo.mp4)
+· [Animated preview](assets/cholescope-live-preview.gif)
+· [Poster](assets/cholescope-live-demo.jpg)
+
+A continuous two-minute browser session, shown at **2× speed**: drag the
+grasper, record A, reset to the same image and seed, record an opposing input
+as B, compare synchronized recordings, and export the actual model actions.
+The video includes real inference and waiting time; the framing, visible
+cursor, and chapter captions were added for presentation. Silent H.264 MP4,
+1920 × 1080. Setup and model warmup precede the take.
+
+*Built on NVIDIA Cosmos. Scene: CMR / Open-H-Embodiment, CC BY 4.0.
+See [demo attribution and reproduction](THIRD_PARTY.md#live-interface-demo).*
+
+<details>
+<summary>Earlier generated A/B example</summary>
+
 ![AI-generated surgical A/B continuations from the same starting image and seed](assets/cholescope-comparison.gif)
 
 *AI-generated A/B continuations: the same CMR starting image and seed `42`,
 with opposing fine motions of the left grasper along the first model axis.
 Source: CMR / Open-H-Embodiment, CC BY 4.0; resized and annotated.
 See [media attribution](THIRD_PARTY.md#published-demo-animations).*
+
+</details>
 
 A paired responsiveness run on **24 October 2026** used an **RTX PRO 6000
 Blackwell (96 GB)**, the frozen two-step BF16 checkpoint, full Wan VAE decoder,
@@ -53,7 +75,7 @@ when changing this setting.
 
 The full Wan VAE decoder is the default because it preserves sharper detail
 than the tiny TAEHV approximation. `--decoder taehv` restores that faster,
-softer decoder on the direct server. The public demo animation above was made
+softer decoder on the direct server. The earlier A/B example above was made
 with the earlier TAEHV configuration; its measured throughput was 34.7 FPS
 with about 1.05 seconds chunk-ready latency. A separate single-scene TAEHV
 check on the same GPU model (two seeds of 192 frames, steady-state chunks)

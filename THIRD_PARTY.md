@@ -52,6 +52,42 @@ side-by-side assembly, and annotation. The animation is AI-generated and does
 not depict an observed pair of surgical outcomes. Attribution does not imply
 endorsement.
 
+## Live interface demo
+
+[`assets/cholescope-live-demo.mp4`](assets/cholescope-live-demo.mp4), its
+[animated preview](assets/cholescope-live-preview.gif), and its
+[poster](assets/cholescope-live-demo.jpg) show an actual CholeScope browser
+session using the same CMR `episode_004148` starting image described above.
+Recorded on 1 November 2026 with the full Wan decoder, four-frame chunks,
+832 × 480 model output, and seed `42` for both branches.
+Attribution: **CMR and the Open-H-Embodiment dataset contributors**.
+[Source dataset](https://huggingface.co/datasets/nvidia/PhysicalAI-Robotics-Open-H-Embodiment/tree/main/Surgical/cmr_surgical/cholecystectomy),
+licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+Built on NVIDIA Cosmos.
+
+Changes: AI-generated continuations, screen recording, a visible cursor,
+two-times playback speed, framing, and chapter captions. The full video is
+one continuous 120-second take presented in 60 seconds; setup and model
+warmup occur before the take. No generated frames are substituted or
+interpolated. The GIF is a resized six-second excerpt and the poster is a
+still from the full video. This is a research demonstration, not a clinically
+validated simulator or an observed comparison of surgical outcomes.
+Attribution does not imply endorsement.
+
+To reproduce the presentation from your own 1600 × 900 browser capture,
+install FFmpeg and the project's Python dependencies, then run:
+
+```bash
+uv run python scripts/render_readme_demo.py /path/to/capture.webm --start 0
+```
+
+`--start` is the source timestamp at which the continuous two-minute take
+begins. The renderer adds captions for the demonstrated recording sequence;
+adapt their timing if your interaction sequence differs. It produces a
+60-second 1920 × 1080 H.264 MP4 below 10 MB, a still preview, and a short GIF.
+It does not generate surgical footage. Raw captures, generated branch
+videos, and action exports remain local and are not added to the repository.
+
 ## Runtime dependencies and provenance
 
 Direct application dependencies are [aiohttp](https://github.com/aio-libs/aiohttp)

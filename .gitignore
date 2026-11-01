@@ -129,6 +129,9 @@ reports/
 *.7z
 *.rar
 !assets/cholescope-comparison.gif
+!assets/cholescope-live-demo.mp4
+!assets/cholescope-live-demo.jpg
+!assets/cholescope-live-preview.gif
 *.pem
 *.key
 *.p12
